@@ -8,7 +8,7 @@
 // No script logic needed
 </script>
 
-<style scoped>
+<style>
 .custom-btn {
   padding: 0.5rem 1.5rem;
   font-size: 1rem;
