@@ -26,6 +26,7 @@ a,
     background-image: url('./images/background-pixl.gif');
     display: flex;
     place-items: center;
+    background-size: cover;
   }
 
   #app {
