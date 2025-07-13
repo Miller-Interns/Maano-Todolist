@@ -1,15 +1,14 @@
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
-import type { Category, Todo } from '../types'; // Import our types
+import type { Category, Todo } from '../types';
 
-// 'defineStore' creates our store. 'main' is its unique ID.
+// 'defineStore' creates our store.
 export const useTodoStore = defineStore('todos', () => {
 
-  // --- STATE (The Data) ---
+  // the state
   const categories = ref<Category[]>([]);
   const newCategoryName = ref('');
 
-  // --- ACTIONS (The Functions) ---
   function addCategory() {
     if (newCategoryName.value.trim() === '') {
       alert('Type in something');

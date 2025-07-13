@@ -1,28 +1,26 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import centerItem from '@/components/center-item.vue';
+import { useUserStore } from '@/stores/userStore';
 import { onMounted } from 'vue';
-const savedName = localStorage.getItem('name')
-const savedDate = localStorage.getItem('date')
 
-function setName() {
-  const name: string | null= prompt('!!All record deleted!!\nEnter your name:');
-  const date: string | null= prompt('What is the date for today?\n(I lost the concept of time)');
-  if (name && date) {
-    localStorage.setItem('name', name);
-    localStorage.setItem('date', date);
-    window.location.reload();
-  }
-}
+//connection to store
+const userDataStore = useUserStore();
 
-function removeRecord() {
-  localStorage.removeItem('name');
-  localStorage.removeItem('date');
-  localStorage.removeItem('todo-app-data');
-  window.location.reload();
-}
+//the data
+const { userName, userDate } = storeToRefs(userDataStore);
+
+//get teh functions
+const {
+  loadUserFromStorage,
+  removeRecord,
+  setName,
+} = userDataStore;
+
+loadUserFromStorage();
 
 onMounted(() => {
-  if (!savedName) {
+  if (userName.value == '') {
     setName();
   }
 });
@@ -30,12 +28,12 @@ onMounted(() => {
 <template>
   <main class="center-container">
     <div class="center-content">
-    <center-item :msg = 'savedName || "No Name"'/>
-    <center-item :msg='savedDate || "No Date"'/>
-    <RouterLink to="/todolist">
-    <button class="todo-button">To do list</button>
-    </RouterLink>
-    <button @click="removeRecord" class="surrender-button">I surrender</button>
+      <center-item :msg='userName || "No Name"' />
+      <center-item :msg='userDate || "No Date"' />
+      <RouterLink to="/todolist">
+        <button class="todo-button">To do list</button>
+      </RouterLink>
+      <button @click="removeRecord" class="surrender-button">I surrender</button>
     </div>
   </main>
 </template>

@@ -1,4 +1,3 @@
-<!-- src/components/TodoList.vue -->
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useTodoStore } from '../stores/todoStore.ts';
@@ -14,7 +13,7 @@ const userDataStore = useUserStore();
 const { categories, newCategoryName} = storeToRefs(todoStore);
 const {userName} = storeToRefs(userDataStore);
 
-// Get the functions (actions) out of the store.
+// Get the functions 
 const {
     addCategory,
     addTodo,
@@ -30,45 +29,42 @@ const {
   removeRecord
 } = userDataStore;
 
-// Load any saved data from localStorage when the component is ready
+// Load any saved data from localStorage
 loadUserFromStorage();
 loadTodosFromStorage();
 </script>
 
-<!-- src/components/TodoList.vue -->
 <template>
   <div class="app-container">
     <div class="top-text">
       <h1>!! DO THIS LIST !!</h1>
       <h3>{{ userName }}</h3>
     </div>
-    <RouterLink to="/">
       <button @click="removeRecord" class="surrender-button">I surrender</button>
-    </RouterLink>
-    <!-- Part 1: Form to create a new PAGE (Category) -->
+    <!-- add new category -->
     <div class="category-creator">
       <input v-model="newCategoryName" @keyup.enter="addCategory" placeholder="Name for a new page" />
       <button @click="addCategory">Add New Page</button>
     </div>
 
-    <!-- Part 2: Show all our PAGES (Categories) -->
+    <!-- Show all our PAGES (Categories) -->
     <div v-for="category in categories" :key="category.id" class="category">
       <h2>{{ category.name }}</h2>
       <button class="delete-category" @click="deleteCategory(category.id)">Delete</button>
-      <!-- Part 3: Form to create a new STICKER (To-Do) on THIS page -->
+      <!-- add a sticker (todo) -->
       <div class="todo-creator">
         <input v-model="category.newTodoText" @keyup.enter="addTodo(category)" placeholder="Add a new sticker..." />
         <button @click="addTodo(category)">Add Sticker</button>
       </div>
 
-      <!-- Part 4: Show all the STICKERS (To-Dos) on THIS page -->
+      <!-- whole sticker -->
       <draggable v-model="category.todos" item-key="id" tag="ul" class="todo-list">
         <template #item="{ element: todo }">
           <li class="todo-item draggable-item">
-            <!-- The checkbox to mark it done (like a gold star!) -->
+            <!-- checkbox -->
             <input type="checkbox" v-model="todo.isDone" />
 
-            <!-- The sticker's text. It can change if we are editing. -->
+            <!-- editing the sticker -->
             <span v-if="!todo.isEditing" :class="{ done: todo.isDone }">
               {{ todo.text }}
             </span>
