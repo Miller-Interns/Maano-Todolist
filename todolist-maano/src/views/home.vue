@@ -3,6 +3,7 @@ import { storeToRefs } from 'pinia';
 import centerItem from '@/components/center-item.vue';
 import { useUserStore } from '@/stores/userStore';
 import { onMounted } from 'vue';
+import { RouterNames } from '@/types/RouterNames';
 
 //connection to store
 const userDataStore = useUserStore();
@@ -30,9 +31,7 @@ onMounted(() => {
     <div class="center-content">
       <center-item :msg='userName || "No Name"' />
       <center-item :msg='userDate || "No Date"' />
-      <RouterLink to="/todolist">
-        <button class="todo-button">To do list</button>
-      </RouterLink>
+        <button class="todo-button" @click="$router.push({name: RouterNames.TODOLIST})">To do list</button>
       <button @click="removeRecord" class="surrender-button">I surrender</button>
     </div>
   </main>
