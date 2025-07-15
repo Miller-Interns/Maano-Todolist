@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia';
 import { useTodoStore } from '../stores/todoStore.ts';
 import { useUserStore } from '@/stores/userStore.ts';
-import draggable from 'vuedraggable';
+import category from '@/components/category.vue';
 
 // Get a connection to our central store
 const todoStore = useTodoStore();
@@ -10,18 +10,13 @@ const userDataStore = useUserStore();
 
 // Get the data (state) out of the store.
 // 'storeToRefs' makes sure it stays reactive (magical)!
-const { categories, newCategoryName} = storeToRefs(todoStore);
-const {userName} = storeToRefs(userDataStore);
+const { newCategoryName } = storeToRefs(todoStore);
+const { userName } = storeToRefs(userDataStore);
 
 // Get the functions 
 const {
-    addCategory,
-    addTodo,
-    deleteTodo,
-    deleteCategory,
-    toggleEdit,
-    saveEdit,
-    loadTodosFromStorage,
+  addCategory,
+  loadTodosFromStorage,
 } = todoStore;
 
 const {
@@ -40,45 +35,14 @@ loadTodosFromStorage();
       <h1>!! DO THIS LIST !!</h1>
       <h3>{{ userName }}</h3>
     </div>
-      <button @click="removeRecord" class="surrender-button">I surrender</button>
+    <button @click="removeRecord" class="surrender-button">I surrender</button>
     <!-- add new category -->
     <div class="category-creator">
       <input v-model="newCategoryName" @keyup.enter="addCategory" placeholder="Name for a new page" />
-      <button @click="addCategory">Add New Page</button>
+      <button @click="addCategory">Add New Category</button>
     </div>
-
     <!-- Show all our PAGES (Categories) -->
-    <div v-for="category in categories" :key="category.id" class="category">
-      <h2>{{ category.name }}</h2>
-      <button class="delete-category" @click="deleteCategory(category.id)">Delete</button>
-      <!-- add a sticker (todo) -->
-      <div class="todo-creator">
-        <input v-model="category.newTodoText" @keyup.enter="addTodo(category)" placeholder="Add a new sticker..." />
-        <button @click="addTodo(category)">Add Sticker</button>
-      </div>
-
-      <!-- whole sticker -->
-      <draggable v-model="category.todos" item-key="id" tag="ul" class="todo-list">
-        <template #item="{ element: todo }">
-          <li class="todo-item draggable-item">
-            <!-- checkbox -->
-            <input type="checkbox" v-model="todo.isDone" />
-
-            <!-- editing the sticker -->
-            <span v-if="!todo.isEditing" :class="{ done: todo.isDone }">
-              {{ todo.text }}
-            </span>
-            <input v-else v-model="todo.text" @keyup.enter="saveEdit(todo)" class="edit-input" />
-
-            <!-- The buttons to edit or delete the sticker -->
-            <div class="todo-actions">
-              <button @click="toggleEdit(todo)">{{ todo.isEditing ? 'Save' : 'Edit' }}</button>
-              <button class="danger" @click="deleteTodo(category, todo.id)">Delete</button>
-            </div>
-          </li>
-        </template>
-      </draggable>
-    </div>
+    <category />
   </div>
 </template>
 
@@ -138,62 +102,9 @@ button {
   color: #ffffff;
 }
 
-button.danger {
-  background-color: #df0606;
-}
-
-.category-creator,
-.todo-creator {
+.category-creator {
   margin-bottom: 20px;
   display: flex;
-}
-
-.category {
-  background-color: #b17b08;
-  border: 5px solid #000000;
-  border-radius: 10px;
-  padding: 15px;
-  margin-top: 20px;
-}
-
-.category h2 {
-  margin-top: 0;
-  color: #ffffff;
-  text-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
-  font-size: 30px;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.todo-item {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  background: white;
-  margin-top: 8px;
-  border-radius: 8px;
-  border: 5px solid #000000;
-  font-size: 25px;
-}
-
-.todo-item span {
-  flex-grow: 1;
-  margin: 0 10px;
-  color: #000000;
-}
-
-.todo-item span.done {
-  text-decoration: line-through;
-  color: #078111;
-}
-
-.edit-input {
-  flex-grow: 1;
-  margin: 0 10px;
-  font-size: medium;
 }
 
 .surrender-button {
@@ -206,9 +117,5 @@ ul {
 
 .surrender-button:hover {
   background-color: #cc0000;
-}
-
-.draggable-item {
-  cursor: grab;
 }
 </style>

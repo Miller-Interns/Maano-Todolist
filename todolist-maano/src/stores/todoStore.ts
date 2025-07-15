@@ -32,7 +32,7 @@ export const useTodoStore = defineStore('todos', () => {
       alert("Type in something");
       return;
     }
-    if (category.todos.find((todos) => todos.text === category.newTodoText)){
+    if (category.todos.find((todos) => todos.text === category.newTodoText)) {
       alert("Sticker already exist!");
       return;
     }
@@ -71,7 +71,7 @@ export const useTodoStore = defineStore('todos', () => {
   watch(categories, (newCategories) => {
     localStorage.setItem('todo-app-data', JSON.stringify(newCategories));
   }, { deep: true });
-  
+
   // Return everything so our components can use them
   return {
     categories,

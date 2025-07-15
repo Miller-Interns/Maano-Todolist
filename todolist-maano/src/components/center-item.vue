@@ -12,10 +12,11 @@ defineProps<{
 
 <style scoped>
 .center-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .center-text {
   font-size: 2rem;
   font-weight: bold;
