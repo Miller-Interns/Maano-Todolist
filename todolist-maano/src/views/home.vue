@@ -31,7 +31,7 @@ onMounted(() => {
     <div class="center-content">
       <center-item :msg='userName || "No Name"' />
       <center-item :msg='userDate || "No Date"' />
-        <button class="todo-button" @click="$router.push({name: RouterNames.TODOLIST})">To do list</button>
+      <button class="todo-button" @click="$router.push({ name: RouterNames.TODOLIST })">To do list</button>
       <button @click="removeRecord" class="surrender-button">I surrender</button>
     </div>
   </main>
